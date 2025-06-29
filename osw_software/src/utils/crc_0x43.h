@@ -1,0 +1,1 @@
+char *pstrCRCGEN (char *pstrDataSetIn, char *pstrCRCPolyIn);

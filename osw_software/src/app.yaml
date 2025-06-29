@@ -1,0 +1,3 @@
+domain_path: C:\Users\aleja\workspace\vitis_unified_workspace\zybo_osw_platform\export\zybo_osw_platform\sw\standalone_ps7_cortexa9_0
+app_src_dir: C:\Xilinx\Vitis\2024.1\data\embeddedsw\lib\sw_apps\hello_world
+template: hello_world
