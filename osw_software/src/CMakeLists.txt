@@ -2,17 +2,14 @@
 # SPDX-License-Identifier: MIT
 cmake_minimum_required(VERSION 3.16)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/Hello_worldExample.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/osw_bissc.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/UserConfig.cmake)
 set(APP_NAME osw_software)
 project(${APP_NAME})
 
 enable_language(C ASM CXX)
 find_package(common)
-collect(PROJECT_LIB_DEPS xilstandalone;xiltimer;xilffs;xilrsa)
-
-
-
+collect(PROJECT_LIB_DEPS xilstandalone;xiltimer)
 
 collect(PROJECT_LIB_DEPS xil)
 collect(PROJECT_LIB_DEPS gcc)

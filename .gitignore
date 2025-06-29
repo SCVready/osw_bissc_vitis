@@ -1,13 +1,12 @@
 # Ignore build output directory
-/build
-/export
-/platform
-/zynq_fsbl
 /osw_software/_ide
 /osw_software/build/
 /osw_software/src/.cache
 
-compile_commands.json
+# Ignore platform directory
+/platform
+
+
 
 # Ignore object files and dependent files
 .o
@@ -20,9 +19,11 @@ compile_commands.json
 #Ignore lock files
 .lock
 
-.bin
-.pdi
-.peers.ini
-.repo.yaml
-.vitisWorkspace.json
+*.bin
+*.bif
+*.pdi
+*.peers.ini
+*.repo.yaml
+*.vitisWorkspace.json
+compile_commands.json
 
