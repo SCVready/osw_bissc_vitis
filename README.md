@@ -8,10 +8,7 @@ Steps to run the app via JTAG:
 - In osw_software: run
 
 Steps to build the boot image:
-- In platform: in vitis-comp.json/platform/ps7_cortexa9_0/standalone_ps7_cortexa9_0/Board Support Package: in Suported Libraries, enable 'xilffs' and 'xilrsa'
-- Create the Zync FSBL component using the examples
-- Build zynq_fsbl
-- In the top menu: Vitis/Create Boot Image/Zynq Create new BIF file:
-    - Add: bootloader, select zynq_fsbl/build/zynq_fsbl.elf (not working, get it from vitis clasic zybo_osw/export/zybo_osw/sw/zybo_osw/boot/fsbl.elf)
-    - Add: data file, select .bit from the Vivado Project
-    - Add: data file, select osw_software/build/osw_software.elf
+- In Platform: Sources/zynq_fsbl/fsbl.h add the line '#define XPAR_PS7_QSPI_LINEAR_0_BASEADDR XPAR_PS7_QSPI_LINEAR_0_BASEADDRESS' see https://adaptivesupport.amd.com/s/question/0D54U00008a69dPSAQ/zynq-7000-fsbl-project-fails-with-vitis-unified-ide-vitis-classic-still-works?language=en_US
+- In Platform: build
+- In osw_software: Create Boot Image:
+    - Change the .bit with the file the Vivado Project
