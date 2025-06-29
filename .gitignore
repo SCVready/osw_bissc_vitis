@@ -1,6 +1,8 @@
 # Ignore build output directory
 /build
 /export
+/platform
+/osw_software/build/
 
 # Ignore object files and dependent files
 .o
@@ -18,3 +20,4 @@
 .peers.ini
 .repo.yaml
 .vitisWorkspace.json
+
