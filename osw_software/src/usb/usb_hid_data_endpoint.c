@@ -48,7 +48,7 @@ void HandleInterruptDataPacket(XUsbPs *InstancePtr, u8 EpNum, u8 *BufferPtr, u32
             if (dataLen >= sizeof(USB_HID_REPORT_VELARO_CUSTOM_0)) {
                 USB_HID_REPORT_VELARO_CUSTOM_0 report;
                 memcpy(&report, data, sizeof(report));
-                LOG("WheelRotation change received %s \n", rotationEnumToString(report.bRotation));
+                LOG("WheelRotation change received %s \n", rotationEnumToString(report.rotation));
                 if (rotationCallback != NULL) {
                     rotationCallback(report.rotation);
                 }
