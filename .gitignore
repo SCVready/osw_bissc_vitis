@@ -2,7 +2,12 @@
 /build
 /export
 /platform
+/zynq_fsbl
+/osw_software/_ide
 /osw_software/build/
+/osw_software/src/.cache
+
+compile_commands.json
 
 # Ignore object files and dependent files
 .o
