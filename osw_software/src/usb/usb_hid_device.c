@@ -1,4 +1,5 @@
 
+#include <stdint.h>
 #include <xbasic_types.h>
 #include <xstatus.h>
 #include <xusbps.h>
@@ -328,7 +329,12 @@ int usbReceiveMagnitudeEnp0(void (*ptr)(int32_t magnitude))
     registerMagnitudeCallback(ptr);
 }
 
-int usbReceiveRotationEnp0(void (*ptr)(WheelRotation rotation))
+int usbReceiveRotationRangeEnp0(void (*ptr)(WheelRotation rotation))
 {
-    registerRotationCallback(ptr);
+    registerRotationRangeCallback(ptr);
+}
+
+int usbReceiveRotationOffsetEnp0(void (*ptr)(int32_t rotation))
+{
+    registerRotationOffsetCallback(ptr);
 }

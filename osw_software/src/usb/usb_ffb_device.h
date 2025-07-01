@@ -6,4 +6,5 @@
 int usbFfbInit();
 int usbFfbSendPosition(int32_t position);
 int usbFfbSetForceCallback(void (*ptr)(int32_t magnitude));
-int usbRotationReceivedCallback(void (*ptr)(WheelRotation rotation));
+int usbRotationRangeReceivedCallback(void (*ptr)(WheelRotation rotation));
+int usbRotationOffsetReceivedCallback(void (*ptr)(int32_t rotation));

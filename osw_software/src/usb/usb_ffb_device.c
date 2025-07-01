@@ -1,6 +1,7 @@
 
 #include "usb_hid_device.h"
 #include "steering_wheel_config.h"
+#include <stdint.h>
 #include <xbasic_types.h>
 
 int usbFfbInit()
@@ -18,7 +19,12 @@ int usbFfbSetForceCallback(void (*ptr)(int32_t magnitude))
     usbReceiveMagnitudeEnp0(ptr);
 }
 
-int usbRotationReceivedCallback(void (*ptr)(WheelRotation rotation))
+int usbRotationRangeReceivedCallback(void (*ptr)(WheelRotation rotation))
 {
-    usbReceiveRotationEnp0(ptr);
+    usbReceiveRotationRangeEnp0(ptr);
+}
+
+int usbRotationOffsetReceivedCallback(void (*ptr)(int32_t rotation))
+{
+    usbReceiveRotationOffsetEnp0(ptr);
 }

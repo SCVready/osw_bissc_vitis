@@ -37,11 +37,13 @@
 #include "xparameters.h"
 
 void receiveFfbMagnitude(int32_t magnitude);
-void receiveRotation(WheelRotation rotation);
+void receiveRotationRange(WheelRotation rotation);
+void receiveRotationOffset(int32_t rotation);
 
 /* Global variables */
 volatile SteeringWheelControllerConfig gwheelControllerConfig = {
-    rotation720
+    rotation720,
+    0
 };
 
 #define INCREMENTAL_ENCODER_CONVERTION_RATIO     (32768.0/10000)
@@ -83,7 +85,7 @@ static void TimerIntrHandler(void *CallBackRef)
 //        int32_t position = position_bissc_enc >> BISSC_ENCODER_CONVERTION_RATIO_BIT_SHIFT;
 //    int32_t position = position_bissc_enc * BISSC_ENCODER_CONVERTION_RATIO * (720.0/rotationEnumToValue(gwheelControllerConfig.wheelRotation));
     int32_t ratio = 6;
-    switch(gwheelControllerConfig.wheelRotation) {
+    switch(gwheelControllerConfig.wheelRotationRange) {
         case rotation360:
             ratio = 6;
             break;
@@ -106,19 +108,11 @@ static void TimerIntrHandler(void *CallBackRef)
 
 
     // Limit
-/*
-    if (position > 32767) {
-        position = 32767;
+    if (position > STEERING_WHEEL_MAX_ROTATION_VALUE) {
+        position = STEERING_WHEEL_MAX_ROTATION_VALUE;
     }
-    else if (position < -32768) {
-        position = -32768;
-    }
-*/
-    if (position > 12582911) {
-        position = 12582911;
-    }
-    else if (position < -12582912) {
-        position = -12582912;
+    else if (position < STEERING_WHEEL_MIN_ROTATION_VALUE) {
+        position = STEERING_WHEEL_MIN_ROTATION_VALUE;
     }
 
     //printf("Steering wheel position %i rotation %s\n\r", position, rotationEnumToString(gwheelControllerConfig.wheelRotation));
@@ -220,7 +214,8 @@ int main()
     }
 
     usbFfbSetForceCallback(receiveFfbMagnitude);
-    usbRotationReceivedCallback(receiveRotation);
+    usbRotationRangeReceivedCallback(receiveRotationRange);
+    usbRotationOffsetReceivedCallback(receiveRotationOffset);
 
     usleep(2000000); // TODO LISTEN TO THE 2 "READY" msg from ep1
 
@@ -245,10 +240,19 @@ void receiveFfbMagnitude(int32_t magnitude)
     writeFfbMagnitudeToBram(magnitude);
 }
 
-void receiveRotation(WheelRotation rotation)
+void receiveRotationRange(WheelRotation rotation)
 {
     //printf("Wheel Rotation %u\n\r", rotationEnumToValue(rotation));
-    gwheelControllerConfig.wheelRotation = rotation;
+    gwheelControllerConfig.wheelRotationRange = rotation;
 
-    writeRotationToBram((rotation));
+    writeRotationRangeToBram((rotation));
+}
+
+void receiveRotationOffset(int32_t rotation)
+{
+    LOG_DEBUG("WheelRotation Offest change received in helloworld %i \n", rotation);
+
+    gwheelControllerConfig.wheelRotationOffset = rotation;
+
+    writeRotationOffsetToBram((rotation));
 }

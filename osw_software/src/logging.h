@@ -8,4 +8,6 @@
     #define LOG(fmt, ...)
 #endif
 
+#define LOG_DEBUG(fmt, ...) xil_printf("LOG: " fmt , ##__VA_ARGS__)
+
 #endif /* LOGGING_H */

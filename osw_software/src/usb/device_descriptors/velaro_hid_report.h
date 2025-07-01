@@ -13,6 +13,7 @@
 #define EFFECT_OPERATION_REPORT_ID      0x0A
 #define PID_DEVICE_CONTROL_REPORT_ID    0x0B
 #define VELARO_CUSTOM_0_REPORT_ID       0x9C
+#define VELARO_CUSTOM_1_REPORT_ID       0x9B
 
 // INPUT (from host)
 #pragma pack(push, 1)
@@ -32,8 +33,14 @@ typedef struct {
 
 #pragma pack(push, 1)
 typedef struct {
-    uint8_t  rotation;
+    uint8_t  rotationRange;
 } USB_HID_REPORT_VELARO_CUSTOM_0;
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+typedef struct {
+    int32_t  rotationOffset;
+} USB_HID_REPORT_VELARO_CUSTOM_1;
 #pragma pack(pop)
 
 #endif

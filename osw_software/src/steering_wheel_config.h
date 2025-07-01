@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+#define STEERING_WHEEL_MAX_ROTATION_VALUE 12582911
+#define STEERING_WHEEL_MIN_ROTATION_VALUE -12582912
+
 typedef enum WheelRotation {
     rotation720 = 0,
     rotation540 = 1,
@@ -11,7 +14,8 @@ typedef enum WheelRotation {
 } WheelRotation;
 
 typedef struct SteeringWheelControllerConfig {
-    enum WheelRotation wheelRotation;
+    enum WheelRotation wheelRotationRange;
+    int32_t wheelRotationOffset;
 } SteeringWheelControllerConfig;
 
 const char* rotationEnumToString(enum WheelRotation val);

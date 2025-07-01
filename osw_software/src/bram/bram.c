@@ -16,7 +16,8 @@
 #define DATA_0_ADDR                             12u
 #define DATA_1_ADDR                             16u
 #define STERING_WHEEL_POSITION_BISSC_ADDR       20u
-#define STERING_WHEEL_ROTATION_ADDR             24u
+#define STERING_WHEEL_ROTATION_RANGE_ADDR       24u
+#define STERING_WHEEL_ROTATION_OFFSET_ADDR      28u
 
 /* Local variables */
 XBram Bram_0; /* The Instance of the BRAM Driver */
@@ -314,9 +315,15 @@ void writeFfbMagnitudeToBram(int16_t magnitude)
 */
 }
 
-void writeRotationToBram(uint8_t rotation)
+void writeRotationRangeToBram(uint8_t rotation)
 {
-    XBram_WriteReg(XPAR_XBRAM_0_BASEADDR, STERING_WHEEL_ROTATION_ADDR, rotation);
+    XBram_WriteReg(XPAR_XBRAM_0_BASEADDR, STERING_WHEEL_ROTATION_RANGE_ADDR, rotation);
+}
+
+void writeRotationOffsetToBram(int32_t rotation)
+{
+    LOG_DEBUG("WheelRotation Offest written to Bram %i \n", rotation);
+    XBram_WriteReg(XPAR_XBRAM_0_BASEADDR, STERING_WHEEL_ROTATION_OFFSET_ADDR, rotation);
 }
 
 /* Private methods */

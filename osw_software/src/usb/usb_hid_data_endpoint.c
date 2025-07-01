@@ -10,7 +10,8 @@
 #include "velaro_hid_report.h"
 
 void (*magnitudeCallback)(int32_t magnitude) = NULL;
-void (*rotationCallback)(WheelRotation rotation) = NULL;
+void (*rotationRangeCallback)(WheelRotation rotation) = NULL;
+void (*rotationOffsetCallback)(int32_t rotation) = NULL;
 
 void HandleInterruptDataPacket(XUsbPs *InstancePtr, u8 EpNum, u8 *BufferPtr, u32 BufferLen)
 {
@@ -48,9 +49,29 @@ void HandleInterruptDataPacket(XUsbPs *InstancePtr, u8 EpNum, u8 *BufferPtr, u32
             if (dataLen >= sizeof(USB_HID_REPORT_VELARO_CUSTOM_0)) {
                 USB_HID_REPORT_VELARO_CUSTOM_0 report;
                 memcpy(&report, data, sizeof(report));
-                LOG("WheelRotation change received %s \n", rotationEnumToString(report.rotation));
-                if (rotationCallback != NULL) {
-                    rotationCallback(report.rotation);
+                LOG_DEBUG("Wheel Rotation Range change received %s \n", rotationEnumToString(report.rotationRange));
+                if (rotationRangeCallback != NULL) {
+                    rotationRangeCallback(report.rotationRange);
+                }
+            }
+            break;
+
+        case VELARO_CUSTOM_1_REPORT_ID:
+            if (dataLen >= sizeof(USB_HID_REPORT_VELARO_CUSTOM_0)) {
+                USB_HID_REPORT_VELARO_CUSTOM_1 report;
+                memcpy(&report, data, sizeof(report));
+
+                // Limit
+                if (report.rotationOffset > STEERING_WHEEL_MAX_ROTATION_VALUE) {
+                    report.rotationOffset = STEERING_WHEEL_MAX_ROTATION_VALUE;
+                }
+                else if (report.rotationOffset < STEERING_WHEEL_MIN_ROTATION_VALUE) {
+                    report.rotationOffset = STEERING_WHEEL_MIN_ROTATION_VALUE;
+                }
+
+                LOG_DEBUG("WheelRotation Offset change received %i \n", report.rotationOffset);
+                if (rotationOffsetCallback != NULL) {
+                    rotationOffsetCallback(report.rotationOffset);
                 }
             }
             break;
@@ -80,7 +101,12 @@ int registerMagnitudeCallback(void (*ptr)(int32_t magnitude))
     magnitudeCallback = ptr;
 }
 
-int registerRotationCallback(void (*ptr)(WheelRotation rotation))
+int registerRotationRangeCallback(void (*ptr)(WheelRotation rotation))
 {
-    rotationCallback = ptr;
+    rotationRangeCallback = ptr;
+}
+
+int registerRotationOffsetCallback(void (*ptr)(int32_t rotation))
+{
+    rotationOffsetCallback = ptr;
 }
