@@ -1,3 +1,12 @@
+**Work In progress**
+
+This is the software implementation of the OSW BISSC project. For the FPGA implementation, see [https://github.com/SCVready/osw_bissc_vivado](https://github.com/SCVready/osw_bissc_vivado)
+
+This project extends the original Open Sim Wheel project from 2014 (MIGE + Ionicube 1x + STM32f4 discovery board + MMOS firmware), replacing the incremental encoder with a higher-resolution BISS-C encoder.
+To integrate the new encoder, I'm using the Xilinx ZYBO board:
+- The FPGA handles the reception of the position data from the BISS-C encoder and generates the PWM for the servo driver.
+- The microprocessor implements the USB HID (with the HID extension for FFB).
+
 Vitis Unified 2024.1 - Workspace
 
 Steps to run the app via JTAG:
